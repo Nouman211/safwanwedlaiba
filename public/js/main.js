@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (btn && audio) {
     audio.loop = true;
     var playing = false;
+    var autoplayAttempted = false;
 
     var savedTime = parseFloat(sessionStorage.getItem('audioTime')) || 0;
     var wasPlaying = sessionStorage.getItem('audioPlaying') === 'true';
@@ -79,6 +80,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (wasPlaying) { playAudio(); }
     else { playAudio(); }
+
+    if (!wasPlaying) {
+      document.addEventListener('click', function firstTap() {
+        playAudio();
+        document.removeEventListener('click', firstTap);
+      }, { once: true });
+    }
 
     setInterval(function () {
       if (playing) {
