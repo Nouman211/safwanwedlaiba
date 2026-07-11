@@ -48,6 +48,42 @@ document.addEventListener('DOMContentLoaded', function () {
     observer.observe(el);
   });
 
+  /* Smooth scroll for anchor links */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="/#"]');
+    if (!link) return;
+    var id = link.getAttribute('href').replace('/#', '');
+    var target = document.getElementById(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  /* Scroll to hash on load */
+  if (window.location.hash) {
+    setTimeout(function () {
+      var target = document.getElementById(window.location.hash.replace('#', ''));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+  }
+
+  /* Active nav link on scroll */
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-link');
+  if (sections.length && navLinks.length) {
+    var scrollObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(function (l) { l.classList.remove('active'); });
+          var activeLink = document.querySelector('.nav-link[href="/#' + entry.target.id + '"]');
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(function (s) { scrollObserver.observe(s); });
+  }
+
   var btn = document.getElementById('musicToggle');
   var icon = document.getElementById('musicIcon');
   var label = document.getElementById('musicLabel');

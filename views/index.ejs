@@ -1,13 +1,8 @@
 <%- include('partials/header') %>
 
 <main>
-  <section class="bismillah-banner">
-    <div class="container">
-      <p class="bismillah-text"><%= t('bismillah') %></p>
-    </div>
-  </section>
-
-  <section class="hero" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600'); background-size: cover; background-position: center;">
+  <!-- ===== Home Section ===== -->
+  <section id="home" class="hero" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600'); background-size: cover; background-position: center;">
     <div class="hero-overlay" style="background: rgba(26,10,14,0.75);"></div>
     <div class="hero-content">
       <p class="hero-bismillah" style="display:none;"><%= t('bismillah') %></p>
@@ -34,6 +29,12 @@
       </div>
     </div>
   </section>
+
+  <div class="bismillah-banner">
+    <div class="container">
+      <p class="bismillah-text"><%= t('bismillah') %></p>
+    </div>
+  </div>
 
   <section class="section details-section">
     <div class="container">
@@ -88,13 +89,231 @@
     </div>
   </section>
 
+  <!-- ===== Events Section ===== -->
+  <section id="events" class="page-hero">
+    <div class="container">
+      <h1><%= t('wedding_events') %></h1>
+      <p><%= t('events_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="events-timeline">
+        <% events.forEach(function(event, index) { %>
+          <% 
+            var eventImages = [
+              'https://i.postimg.cc/2SsyddpT/Chat-GPT-Image-Jul-11-2026-11-04-23-PM.png',
+              'https://i.postimg.cc/7ZH8Ff3x/Chat-GPT-Image-Jul-11-2026-11-13-47-PM.png',
+              'https://i.postimg.cc/Z52HrQK7/Chat-GPT-Image-Jul-11-2026-11-17-14-PM.png'
+            ];
+          %>
+          <div class="event-card">
+            <div class="event-number"><%= index + 1 %></div>
+            <div class="event-body">
+              <div class="event-image-col">
+                <img src="<%= eventImages[index] %>" alt="<%= lang === 'ur' ? event.title_ur : event.title_en %>" class="event-image">
+                <div class="event-image-overlay"></div>
+              </div>
+              <div class="event-text-col">
+                <div class="event-icon">
+                  <% if (event.icon === 'hand') { %>
+                    <i class="fas fa-hand-holding-heart"></i>
+                  <% } else if (event.icon === 'ring') { %>
+                    <i class="fas fa-ring"></i>
+                  <% } else { %>
+                    <i class="fas fa-utensils"></i>
+                  <% } %>
+                </div>
+                <h2><%= lang === 'ur' ? event.title_ur : event.title_en %></h2>
+                <div class="event-details">
+                  <p><i class="fas fa-calendar-day"></i> <%= event.date %></p>
+                  <p><i class="fas fa-clock"></i> <%= event.time %></p>
+                  <p><i class="fas fa-map-marker-alt"></i> <%= event.venue %></p>
+                </div>
+                <p class="event-description"><%= event.description %></p>
+                <% if (event.venue !== 'Will be decided later' && event.venue !== 'بعد میں طے ہوگا') { %>
+                  <a href="https://maps.google.com/?q=<%= encodeURIComponent(event.venue) %>" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><%= t('view_on_map') %> <i class="fas fa-external-link-alt"></i></a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RSVP Section ===== -->
+  <section id="rsvp" class="page-hero">
+    <div class="container">
+      <h1><%= t('rsvp_title') %></h1>
+      <p><%= t('rsvp_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="rsvp-container">
+        <form id="rsvpForm" class="rsvp-form" novalidate>
+          <div class="form-header">
+            <i class="fas fa-envelope-open-text"></i>
+            <h2><%= t('please_rsvp') %></h2>
+            <p><%= t('rsvp_desc') %></p>
+          </div>
+
+          <div class="form-group">
+            <label for="name"><%= t('full_name') %> <span class="required">*</span></label>
+            <input type="text" id="name" name="name" placeholder="<%= t('full_name') %>" required maxlength="100">
+          </div>
+
+          <div class="form-group">
+            <label for="email"><%= t('email_address') %></label>
+            <input type="email" id="email" name="email" placeholder="your@email.com">
+          </div>
+
+          <div class="form-group">
+            <label><%= t('attending') %> <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="attending" value="yes" required>
+                <span class="radio-custom"></span>
+                <span class="radio-text"><i class="fas fa-smile"></i> <%= t('joyfully_accept') %></span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="attending" value="no">
+                <span class="radio-custom"></span>
+                <span class="radio-text"><i class="fas fa-frown"></i> <%= t('regretfully_decline') %></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="guests"><%= t('additional_guests') %></label>
+            <textarea id="guests" name="guests" rows="2" placeholder="<%= t('guests_placeholder') %>"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block"><%= t('submit_rsvp') %> <i class="fas fa-paper-plane"></i></button>
+        </form>
+        <div id="rsvpSuccess" class="success-message" style="display:none;">
+          <i class="fas fa-check-circle"></i>
+          <h2><%= t('rsvp_success') %></h2>
+          <p><%= t('rsvp_future') %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Guests Section ===== -->
+  <section id="guests" class="page-hero">
+    <div class="container">
+      <h1><%= t('guest_list') %></h1>
+      <p><%= t('guest_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="guest-count" style="text-align:center;margin-bottom:20px;">
+        <p><%= guests.length %> <%= t('guest') %></p>
+      </div>
+
+      <div class="guest-grid">
+        <% guests.forEach(function(guest) { %>
+          <div class="guest-card">
+            <div class="guest-avatar">
+              <%= guest.name.charAt(0) %>
+            </div>
+            <div class="guest-info">
+              <h3><%= guest.name %></h3>
+              <span class="guest-relation"><%= guest.relation %></span>
+            </div>
+            <span class="guest-status status-<%= guest.status.toLowerCase() %>">
+              <% if (guest.status === 'Confirmed') { %>
+                <i class="fas fa-check-circle"></i>
+              <% } else if (guest.status === 'Invited') { %>
+                <i class="fas fa-envelope"></i>
+              <% } else { %>
+                <i class="fas fa-hourglass-half"></i>
+              <% } %>
+              <%= guest.status %>
+            </span>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Gallery Section ===== -->
+  <section id="gallery" class="page-hero">
+    <div class="container">
+      <h1><%= t('gallery_title') %></h1>
+      <p><%= t('gallery_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="gallery-placeholder">
+        <i class="fas fa-images"></i>
+        <h2>Gallery Coming Soon</h2>
+        <p>We will be adding photos soon. Check back later!</p>
+      </div>
+      <div class="gallery-grid" style="display:none">
+        <% images.forEach(function(image) { %>
+          <div class="gallery-item">
+            <% if (image.url) { %>
+              <img src="<%= image.url %>" alt="<%= image.caption %>" loading="lazy">
+              <div class="gallery-overlay">
+                <span><%= image.caption %></span>
+              </div>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
   <section class="section cta-section">
     <div class="container">
       <h2><%= t('will_you_join') %></h2>
       <p><%= t('confirm_presence') %></p>
-      <a href="/rsvp" class="btn btn-primary"><%= t('rsvp_now') %> <i class="fas fa-arrow-right"></i></a>
+      <a href="/#rsvp" class="btn btn-primary"><%= t('rsvp_now') %> <i class="fas fa-arrow-right"></i></a>
     </div>
   </section>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('rsvpForm');
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var name = document.getElementById('name').value.trim();
+    var attending = document.querySelector('input[name="attending"]:checked');
+    var guests = document.getElementById('guests').value.trim();
+    var email = document.getElementById('email').value.trim();
+
+    if (!name) { alert('Please enter your name.'); return; }
+    if (!attending) { alert('Please select your attendance status.'); return; }
+
+    var status = attending.value === 'yes' ? 'Joyfully Accepting' : 'Regretfully Declining';
+    var message = `*RSVP - Safwan & Laiba's Wedding*%0A%0A`;
+    message += `*Name:* ${name}%0A`;
+    if (email) message += `*Email:* ${email}%0A`;
+    message += `*Status:* ${status}%0A`;
+    if (guests) message += `*Additional Guests:* ${guests}%0A`;
+    message += `%0A_Submitted via Wedding Website_`;
+
+    var whatsappUrl = `https://wa.me/<%= whatsappNumber %>?text=${message}`;
+
+    window.location.href = whatsappUrl;
+
+    form.style.display = 'none';
+    document.getElementById('rsvpSuccess').style.display = 'block';
+  });
+});
+</script>
 
 <%- include('partials/footer') %>

@@ -213,6 +213,45 @@ const guestList = [
 
 const whatsappNumber = '923008548210';
 
+var events = [
+  {
+    title_en: 'Mehndi',
+    title_ur: 'مہندی',
+    date: 'March 25, 2027',
+    time: '7:00 PM',
+    venue: 'House No 154/A, Street No 56/B, Near Syed Hostel, Abdali Chowk, Islampura, Lahore',
+    description: 'A night of music, dance, and henna. Join us for a colorful evening of celebration!',
+    icon: 'hand',
+  },
+  {
+    title_en: 'Barat (Nikah)',
+    title_ur: 'بارات (نکاح)',
+    date: 'March 26, 2027',
+    time: '2:00 PM',
+    venue: 'Will be decided later',
+    description: 'The main wedding ceremony. Nikah will be performed followed by dinner.',
+    icon: 'ring',
+  },
+  {
+    title_en: 'Walima',
+    title_ur: 'ولیمہ',
+    date: 'March 27, 2027',
+    time: '8:00 PM',
+    venue: 'Will be decided later',
+    description: 'The grand Walima reception dinner celebrating the union of two families.',
+    icon: 'utensils',
+  },
+];
+
+var galleryImages = [
+  { url: '', caption: 'Your Image 1' },
+  { url: '', caption: 'Your Image 2' },
+  { url: '', caption: 'Your Image 3' },
+  { url: '', caption: 'Your Image 4' },
+  { url: '', caption: 'Your Image 5' },
+  { url: '', caption: 'Your Image 6' },
+];
+
 app.get('/', (req, res) => {
   const eventDate = new Date('2027-03-26T14:00:00');
   const now = new Date();
@@ -226,16 +265,16 @@ app.get('/', (req, res) => {
     currentPage: 'home',
     days, hours, minutes,
     whatsappNumber,
+    events: events,
+    guests: guestList,
+    images: galleryImages,
   });
 });
 
-app.get('/rsvp', (req, res) => {
-  res.render('rsvp', {
-    title: res.locals.t('site_title') + ' - ' + res.locals.t('rsvp'),
-    currentPage: 'rsvp', errors: [], success: null, formData: null,
-    whatsappNumber,
-  });
-});
+app.get('/events', (req, res) => res.redirect('/#events'));
+app.get('/guests', (req, res) => res.redirect('/#guests'));
+app.get('/gallery', (req, res) => res.redirect('/#gallery'));
+app.get('/rsvp', (req, res) => res.redirect('/#rsvp'));
 
 app.post('/rsvp', apiLimiter, [
   body('name').trim().isLength({ min: 2, max: 100 }).withMessage('Name must be 2-100 characters.').escape(),
@@ -243,18 +282,6 @@ app.post('/rsvp', apiLimiter, [
   body('attending').isIn(['yes', 'no']).withMessage('Please select your attendance status.'),
   body('guests').optional().trim().isLength({ max: 500 }).escape(),
 ], (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.render('rsvp', {
-      title: res.locals.t('site_title') + ' - ' + res.locals.t('rsvp'),
-      currentPage: 'rsvp',
-      errors: errors.array(),
-      success: null,
-      formData: req.body,
-      whatsappNumber,
-    });
-  }
-
   const rsvps = readRSVPs();
   if (req.body.name) {
     rsvps.push({
@@ -267,85 +294,7 @@ app.post('/rsvp', apiLimiter, [
     });
     writeRSVPs(rsvps);
   }
-
-  res.render('rsvp', {
-    title: res.locals.t('site_title') + ' - ' + res.locals.t('rsvp'),
-    currentPage: 'rsvp',
-    errors: [],
-    success: res.locals.t('rsvp_success'),
-    formData: null,
-    whatsappNumber,
-  });
-});
-
-app.get('/guests', (req, res) => {
-  const filter = req.query.filter || 'all';
-  let filtered = guestList;
-  if (filter !== 'all') {
-    filtered = guestList.filter(g => g.status.toLowerCase() === filter.toLowerCase());
-  }
-
-  res.render('guests', {
-    title: res.locals.t('site_title') + ' - ' + res.locals.t('guests'),
-    currentPage: 'guests',
-    guests: filtered,
-    activeFilter: filter,
-  });
-});
-
-app.get('/events', (req, res) => {
-  const events = [
-    {
-      title_en: 'Mehndi',
-      title_ur: 'مہندی',
-      date: 'March 25, 2027',
-      time: '7:00 PM',
-      venue: 'House No 154/A, Street No 56/B, Near Syed Hostel, Abdali Chowk, Islampura, Lahore',
-      description: 'A night of music, dance, and henna. Join us for a colorful evening of celebration!',
-      icon: 'hand',
-    },
-    {
-      title_en: 'Barat (Nikah)',
-      title_ur: 'بارات (نکاح)',
-      date: 'March 26, 2027',
-      time: '2:00 PM',
-      venue: 'Will be decided later',
-      description: 'The main wedding ceremony. Nikah will be performed followed by dinner.',
-      icon: 'ring',
-    },
-    {
-      title_en: 'Walima',
-      title_ur: 'ولیمہ',
-      date: 'March 27, 2027',
-      time: '8:00 PM',
-      venue: 'Will be decided later',
-      description: 'The grand Walima reception dinner celebrating the union of two families.',
-      icon: 'utensils',
-    },
-  ];
-
-  res.render('events', {
-    title: res.locals.t('site_title') + ' - ' + res.locals.t('events'),
-    currentPage: 'events',
-    events,
-  });
-});
-
-app.get('/gallery', (req, res) => {
-  const images = [
-    { url: '', caption: 'Your Image 1' },
-    { url: '', caption: 'Your Image 2' },
-    { url: '', caption: 'Your Image 3' },
-    { url: '', caption: 'Your Image 4' },
-    { url: '', caption: 'Your Image 5' },
-    { url: '', caption: 'Your Image 6' },
-  ];
-
-  res.render('gallery', {
-    title: res.locals.t('site_title') + ' - ' + res.locals.t('gallery'),
-    currentPage: 'gallery',
-    images,
-  });
+  res.redirect('/#rsvp');
 });
 
 app.use((req, res) => {
@@ -353,6 +302,9 @@ app.use((req, res) => {
     title: '404 - Not Found',
     currentPage: 'home', days: 0, hours: 0, minutes: 0,
     whatsappNumber,
+    events: events,
+    guests: guestList,
+    images: galleryImages,
   });
 });
 
