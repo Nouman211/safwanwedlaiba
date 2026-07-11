@@ -56,43 +56,44 @@ document.addEventListener('DOMContentLoaded', function () {
   if (btn && audio) {
     audio.loop = true;
     var playing = false;
-    var autoplayAttempted = false;
 
     var savedTime = parseFloat(sessionStorage.getItem('audioTime')) || 0;
     var wasPlaying = sessionStorage.getItem('audioPlaying') === 'true';
 
     if (savedTime > 0) { audio.currentTime = savedTime; }
 
+    function updateUI(isPlaying) {
+      icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+      label.textContent = isPlaying ? 'Pause' : 'Play Music';
+      playing = isPlaying;
+    }
+
     function playAudio() {
       audio.play().then(function () {
-        icon.className = 'fas fa-pause';
-        label.textContent = 'Pause';
-        playing = true;
-      }).catch(function () {});
+        updateUI(true);
+      }).catch(function () {
+        updateUI(false);
+      });
     }
 
     function pauseAudio() {
       audio.pause();
-      icon.className = 'fas fa-play';
-      label.textContent = 'Play Music';
-      playing = false;
+      updateUI(false);
     }
 
-    if (wasPlaying) { playAudio(); }
-    else { playAudio(); }
+    playAudio();
 
-    if (!wasPlaying) {
-      document.addEventListener('click', function firstTap() {
-        playAudio();
-        document.removeEventListener('click', firstTap);
-      }, { once: true });
+    function firstTapHandler() {
+      if (!playing) { playAudio(); }
+      document.removeEventListener('click', firstTapHandler);
+      document.removeEventListener('touchstart', firstTapHandler);
     }
+    document.addEventListener('click', firstTapHandler, { once: true });
+    document.addEventListener('touchstart', firstTapHandler, { once: true });
 
     setInterval(function () {
-      if (playing) {
-        sessionStorage.setItem('audioTime', audio.currentTime);
-        sessionStorage.setItem('audioPlaying', 'true');
-      }
+      sessionStorage.setItem('audioTime', audio.currentTime);
+      sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
     }, 500);
 
     window.addEventListener('beforeunload', function () {
@@ -100,7 +101,8 @@ document.addEventListener('DOMContentLoaded', function () {
       sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
     });
 
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
       if (playing) { pauseAudio(); }
       else { playAudio(); }
     });
