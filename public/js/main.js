@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
           fs: 0,
           modestbranding: 1,
           playsinline: 1,
-          start: 3,
+          start: 8,
         },
         events: {
           onReady: function () {
