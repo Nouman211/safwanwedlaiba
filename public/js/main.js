@@ -51,73 +51,58 @@ document.addEventListener('DOMContentLoaded', function () {
   var btn = document.getElementById('musicToggle');
   var icon = document.getElementById('musicIcon');
   var label = document.getElementById('musicLabel');
-  var playerDiv = document.getElementById('youtubePlayer');
+  var audio = document.getElementById('bgAudio');
 
-  if (btn && playerDiv) {
+  if (btn && audio) {
     var playing = false;
-    var player = null;
-    var playerReady = false;
+    var savedTime = parseFloat(sessionStorage.getItem('audioTime')) || 0;
+    var wasPlaying = sessionStorage.getItem('audioPlaying') === 'true';
 
-    var tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    var firstScript = document.getElementsByTagName('script')[0];
-    firstScript.parentNode.insertBefore(tag, firstScript);
+    if (savedTime > 0) { audio.currentTime = savedTime; }
 
-    window.onYouTubeIframeAPIReady = function () {
-      player = new YT.Player('youtubePlayer', {
-        height: '1',
-        width: '1',
-        videoId: '8mYeTuzBQr4',
-        playerVars: {
-          autoplay: 1,
-          loop: 1,
-          playlist: '8mYeTuzBQr4',
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          modestbranding: 1,
-          playsinline: 1,
-        },
-        events: {
-          onReady: function () {
-            playerReady = true;
-            player.setVolume(50);
-            player.playVideo();
-            playing = true;
-            icon.className = 'fas fa-pause';
-            label.textContent = 'Pause';
-          },
-        },
-      });
-    };
-
-    function onUserInteraction() {
-      if (player && playerReady) {
-        if (player.isMuted && player.isMuted()) {
-          player.unMute();
-        }
-      }
-      document.removeEventListener('click', onUserInteraction);
-      document.removeEventListener('touchstart', onUserInteraction);
+    function updateUI(isPlaying) {
+      icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+      label.textContent = isPlaying ? 'Pause' : 'Play Music';
+      playing = isPlaying;
     }
-    document.addEventListener('click', onUserInteraction, { once: true });
-    document.addEventListener('touchstart', onUserInteraction, { once: true });
+
+    function playAudio() {
+      audio.play().then(function () {
+        updateUI(true);
+      }).catch(function () {
+        updateUI(false);
+      });
+    }
+
+    function pauseAudio() {
+      audio.pause();
+      updateUI(false);
+    }
+
+    playAudio();
+
+    function firstTapHandler() {
+      if (!playing) { playAudio(); }
+      document.removeEventListener('click', firstTapHandler);
+      document.removeEventListener('touchstart', firstTapHandler);
+    }
+    document.addEventListener('click', firstTapHandler, { once: true });
+    document.addEventListener('touchstart', firstTapHandler, { once: true });
+
+    setInterval(function () {
+      sessionStorage.setItem('audioTime', audio.currentTime);
+      sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
+    }, 500);
+
+    window.addEventListener('beforeunload', function () {
+      sessionStorage.setItem('audioTime', audio.currentTime);
+      sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
+    });
 
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
-      if (player && playerReady) {
-        if (playing) {
-          player.pauseVideo();
-          icon.className = 'fas fa-play';
-          label.textContent = 'Play Music';
-          playing = false;
-        } else {
-          player.playVideo();
-          icon.className = 'fas fa-pause';
-          label.textContent = 'Pause';
-          playing = true;
-        }
-      }
+      if (playing) { pauseAudio(); }
+      else { playAudio(); }
     });
   }
 });

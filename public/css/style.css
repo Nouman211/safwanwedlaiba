@@ -1397,16 +1397,7 @@ img { max-width: 100%; height: auto; display: block; }
 .lang-btn i { font-size: 0.7rem; }
 
 /* ===== YouTube Player ===== */
-#youtubePlayer {
-  position: fixed;
-  bottom: -100px;
-  right: -100px;
-  width: 1px;
-  height: 1px;
-  border: none;
-  pointer-events: none;
-  opacity: 0.01;
-}
+
 
 /* ===== Music Bar (mobile-first) ===== */
 .music-bar {
