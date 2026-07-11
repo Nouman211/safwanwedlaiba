@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var playing = false;
     var player = null;
     var playerReady = false;
+    var savedTime = parseFloat(sessionStorage.getItem('audioTime')) || 0;
 
     var tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
@@ -83,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function () {
           onReady: function () {
             playerReady = true;
             player.setVolume(50);
+            if (savedTime > 8) {
+              player.seekTo(savedTime, true);
+            }
             player.playVideo();
             playing = true;
             icon.className = 'fas fa-pause';
@@ -101,6 +105,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     document.addEventListener('click', onUserInteraction, { once: true });
     document.addEventListener('touchstart', onUserInteraction, { once: true });
+
+    setInterval(function () {
+      if (player && playerReady) {
+        sessionStorage.setItem('audioTime', player.getCurrentTime());
+        sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
+      }
+    }, 500);
+
+    window.addEventListener('beforeunload', function () {
+      if (player && playerReady) {
+        sessionStorage.setItem('audioTime', player.getCurrentTime());
+        sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
+      }
+    });
 
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
