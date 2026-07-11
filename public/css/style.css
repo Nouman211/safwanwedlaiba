@@ -117,6 +117,7 @@ img { max-width: 100%; height: auto; display: block; }
   transition: var(--transition);
   backdrop-filter: blur(10px);
   display: flex;
+  z-index: 999;
 }
 
 .nav-menu.active { transform: translateY(0); }
@@ -1404,6 +1405,7 @@ img { max-width: 100%; height: auto; display: block; }
   height: 1px;
   border: none;
   pointer-events: none;
+  opacity: 0.01;
 }
 
 /* ===== Music Bar (mobile-first) ===== */
