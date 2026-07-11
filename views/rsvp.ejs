@@ -1,0 +1,119 @@
+<%- include('partials/header') %>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1><%= t('rsvp_title') %></h1>
+      <p><%= t('rsvp_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="rsvp-container">
+        <% if (success) { %>
+          <div class="success-message">
+            <i class="fas fa-check-circle"></i>
+            <h2><%= success %></h2>
+            <p><%= t('rsvp_future') %></p>
+            <a href="/" class="btn btn-primary"><%= t('back_to_home') %></a>
+          </div>
+        <% } else { %>
+          <form id="rsvpForm" class="rsvp-form" novalidate>
+            <div class="form-header">
+              <i class="fas fa-envelope-open-text"></i>
+              <h2><%= t('please_rsvp') %></h2>
+              <p><%= t('rsvp_desc') %></p>
+            </div>
+
+            <% if (errors.length > 0) { %>
+              <div class="error-summary">
+                <ul>
+                  <% errors.forEach(function(error) { %>
+                    <li><i class="fas fa-exclamation-circle"></i> <%= error.msg %></li>
+                  <% }); %>
+                </ul>
+              </div>
+            <% } %>
+
+            <div class="form-group">
+              <label for="name"><%= t('full_name') %> <span class="required">*</span></label>
+              <input type="text" id="name" name="name" placeholder="<%= t('full_name') %>" value="<%= formData ? formData.name : '' %>" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+              <label for="email"><%= t('email_address') %></label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" value="<%= formData ? formData.email : '' %>">
+            </div>
+
+            <div class="form-group">
+              <label><%= t('attending') %> <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="attending" value="yes" <%= formData && formData.attending === 'yes' ? 'checked' : '' %> required>
+                  <span class="radio-custom"></span>
+                  <span class="radio-text"><i class="fas fa-smile"></i> <%= t('joyfully_accept') %></span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="attending" value="no" <%= formData && formData.attending === 'no' ? 'checked' : '' %>>
+                  <span class="radio-custom"></span>
+                  <span class="radio-text"><i class="fas fa-frown"></i> <%= t('regretfully_decline') %></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="guests"><%= t('additional_guests') %></label>
+              <textarea id="guests" name="guests" rows="2" placeholder="<%= t('guests_placeholder') %>"><%= formData ? formData.guests : '' %></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block"><%= t('submit_rsvp') %> <i class="fas fa-paper-plane"></i></button>
+          </form>
+        <% } %>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('rsvpForm');
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const attending = document.querySelector('input[name="attending"]:checked');
+    const guests = document.getElementById('guests').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!name) { alert('Please enter your name.'); return; }
+    if (!attending) { alert('Please select your attendance status.'); return; }
+
+    const status = attending.value === 'yes' ? 'Joyfully Accepting' : 'Regretfully Declining';
+    let message = `*RSVP - Safwan & Laiba's Wedding*%0A%0A`;
+    message += `*Name:* ${name}%0A`;
+    if (email) message += `*Email:* ${email}%0A`;
+    message += `*Status:* ${status}%0A`;
+    if (guests) message += `*Additional Guests:* ${guests}%0A`;
+    message += `%0A_Submitted via Wedding Website_`;
+
+    const whatsappUrl = `https://wa.me/<%= whatsappNumber %>?text=${message}`;
+
+    window.location.href = whatsappUrl;
+
+    form.parentNode.innerHTML = '';
+    form.parentNode.innerHTML = `
+      <div class="success-message">
+        <i class="fas fa-check-circle"></i>
+        <h2><%= t('rsvp_success') %></h2>
+        <p><%= t('rsvp_future') %></p>
+        <a href="/" class="btn btn-primary"><%= t('back_to_home') %></a>
+      </div>
+    `;
+  });
+});
+</script>
+
+<%- include('partials/footer') %>

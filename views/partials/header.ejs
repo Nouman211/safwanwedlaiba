@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Safwan and Laiba's Wedding Invitation - Join us in celebrating the union of two hearts">
+  <meta name="theme-color" content="#d4a574">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&family=Noto+Nastaliq+Urdu:wght@400;700&family=Great+Vibes&family=Amiri:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <title><%= title %></title>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container top-bar-inner">
+    <div class="lang-switcher">
+      <a href="/set-lang/<%= lang === 'ur' ? 'en' : 'ur' %>" class="lang-btn">
+        <i class="fas fa-globe"></i>
+        <%= lang === 'ur' ? 'English' : 'اردو' %>
+      </a>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <i class="fas fa-heart"></i> Safwan & Laiba
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu">
+      <li><a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>"><i class="fas fa-home"></i> <%= t('home') %></a></li>
+      <li><a href="/events" class="<%= currentPage === 'events' ? 'active' : '' %>"><i class="fas fa-calendar-alt"></i> <%= t('events') %></a></li>
+      <li><a href="/rsvp" class="<%= currentPage === 'rsvp' ? 'active' : '' %>"><i class="fas fa-envelope"></i> <%= t('rsvp') %></a></li>
+      <li><a href="/guests" class="<%= currentPage === 'guests' ? 'active' : '' %>"><i class="fas fa-users"></i> <%= t('guests') %></a></li>
+      <li><a href="/gallery" class="<%= currentPage === 'gallery' ? 'active' : '' %>"><i class="fas fa-images"></i> <%= t('gallery') %></a></li>
+    </ul>
+  </div>
+</nav>

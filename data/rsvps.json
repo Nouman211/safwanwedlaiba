@@ -1,0 +1,20 @@
+[
+  {
+    "id": "mrf4lzevd2plm",
+    "name": "Test User",
+    "email": "test@example.com",
+    "attending": "yes",
+    "guests": "",
+    "dietary": "",
+    "submittedAt": "2026-07-10T16:04:29.959Z"
+  },
+  {
+    "id": "mrf4skf4wul70",
+    "name": "umama",
+    "email": "bakkarakkar19@gmail.com",
+    "attending": "yes",
+    "guests": "",
+    "dietary": "",
+    "submittedAt": "2026-07-10T16:09:37.120Z"
+  }
+]

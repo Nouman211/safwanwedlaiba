@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 160" width="100%" height="auto">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&amp;display=swap');
+      .bismillah-text {
+        font-family: 'Amiri', serif;
+        font-size: 52px;
+        font-weight: 700;
+        fill: #D4AF37;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+    </style>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C5A059"/>
+      <stop offset="30%" stop-color="#E8C76A"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="70%" stop-color="#E8C76A"/>
+      <stop offset="100%" stop-color="#C5A059"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#D4AF37" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="900" height="160" rx="8" fill="none"/>
+
+  <!-- Outer decorative border -->
+  <rect x="10" y="8" width="880" height="144" rx="6" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Inner decorative border -->
+  <rect x="18" y="16" width="864" height="128" rx="4" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Top ornamental line -->
+  <line x1="60" y1="28" x2="840" y2="28" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+  <line x1="60" y1="132" x2="840" y2="132" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Corner diamond ornaments -->
+  <!-- Top-left -->
+  <polygon points="30,32 36,26 42,32 36,38" fill="#D4AF37" opacity="0.6"/>
+  <polygon points="26,28 36,18 46,28 36,38" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+  <!-- Top-right -->
+  <polygon points="858,32 864,26 870,32 864,38" fill="#D4AF37" opacity="0.6"/>
+  <polygon points="854,28 864,18 874,28 864,38" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+  <!-- Bottom-left -->
+  <polygon points="30,128 36,122 42,128 36,134" fill="#D4AF37" opacity="0.6"/>
+  <polygon points="26,132 36,122 46,132 36,142" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+  <!-- Bottom-right -->
+  <polygon points="858,128 864,122 870,128 864,134" fill="#D4AF37" opacity="0.6"/>
+  <polygon points="854,132 864,122 874,132 864,142" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Side decorative dots -->
+  <circle cx="30" cy="80" r="2" fill="#D4AF37" opacity="0.4"/>
+  <circle cx="870" cy="80" r="2" fill="#D4AF37" opacity="0.4"/>
+
+  <!-- Small diamond center-top -->
+  <polygon points="450,34 454,30 458,34 454,38" fill="#D4AF37" opacity="0.5"/>
+  <!-- Small diamond center-bottom -->
+  <polygon points="450,126 454,122 458,126 454,130" fill="#D4AF37" opacity="0.5"/>
+
+  <!-- The Bismillah calligraphy - stretched horizontally -->
+  <text class="bismillah-text" x="450" y="80" textLength="820" lengthAdjust="spacing" filter="url(#shadow)">
+    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+  </text>
+</svg>

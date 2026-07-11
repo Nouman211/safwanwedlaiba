@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1><%= t('guest_list') %></h1>
+      <p><%= t('guest_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="guest-count" style="text-align:center;margin-bottom:20px;">
+        <p><%= guests.length %> <%= t('guest') %></p>
+      </div>
+
+      <div class="guest-grid">
+        <% guests.forEach(function(guest) { %>
+          <div class="guest-card">
+            <div class="guest-avatar">
+              <%= guest.name.charAt(0) %>
+            </div>
+            <div class="guest-info">
+              <h3><%= guest.name %></h3>
+              <span class="guest-relation"><%= guest.relation %></span>
+            </div>
+            <span class="guest-status status-<%= guest.status.toLowerCase() %>">
+              <% if (guest.status === 'Confirmed') { %>
+                <i class="fas fa-check-circle"></i>
+              <% } else if (guest.status === 'Invited') { %>
+                <i class="fas fa-envelope"></i>
+              <% } else { %>
+                <i class="fas fa-hourglass-half"></i>
+              <% } %>
+              <%= guest.status %>
+            </span>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

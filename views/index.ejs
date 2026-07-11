@@ -1,0 +1,100 @@
+<%- include('partials/header') %>
+
+<main>
+  <section class="bismillah-banner">
+    <div class="container">
+      <p class="bismillah-text"><%= t('bismillah') %></p>
+    </div>
+  </section>
+
+  <section class="hero" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600'); background-size: cover; background-position: center;">
+    <div class="hero-overlay" style="background: rgba(26,10,14,0.75);"></div>
+    <div class="hero-content">
+      <p class="hero-bismillah" style="display:none;"><%= t('bismillah') %></p>
+      <p class="hero-subtitle"><%= t('invite_title') %></p>
+      <div class="hero-names">
+        <span class="name">Safwan</span>
+        <span class="ampersand">weds</span>
+        <span class="name">Laiba</span>
+      </div>
+      <p class="hero-verse"><%= t('verse') %></p>
+      <div class="hero-countdown">
+        <div class="countdown-item">
+          <span class="countdown-number"><%= days %></span>
+          <span class="countdown-label"><%= t('days') %></span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number"><%= hours %></span>
+          <span class="countdown-label"><%= t('hours') %></span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number"><%= minutes %></span>
+          <span class="countdown-label"><%= t('minutes') %></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section details-section">
+    <div class="container">
+      <h2 class="section-title"><%= t('wedding_details') %></h2>
+      <p class="section-subtitle"><%= t('join_us') %></p>
+      <div class="details-grid">
+        <div class="detail-card">
+          <div class="detail-icon"><i class="fas fa-calendar-day"></i></div>
+          <h3><%= t('date') %></h3>
+          <p>March 26, 2027</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-icon"><i class="fas fa-clock"></i></div>
+          <h3><%= t('time') %></h3>
+          <p><%= t('nikkah_time') %></p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3><%= t('venue') %></h3>
+          <p><%= t('venue_tbd') %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section story-section">
+    <div class="container">
+      <h2 class="section-title"><%= t('our_story') %></h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>How We Met</h3>
+            <p>Long before they understood the meaning of love, their families had already tied their hearts together in a beautiful childhood engagement. They grew up as strangers, each following their own dreams and creating their own memories, completely unaware that destiny had already written their names beside each other.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>The Beautiful Discovery</h3>
+            <p>Years passed, and life brought them together again. It was then that they learned a wonderful secret—that they had been engaged since childhood. What began as a surprising revelation soon felt like a story written by fate itself. Every conversation and every moment together seemed to confirm that some connections are meant to be.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>The Wedding</h3>
+            <p>With hearts full of gratitude and excitement, they embraced the journey that had begun long ago without their knowledge. What was once a promise made by their families became a love they chose wholeheartedly. Today, they celebrate not only their wedding but also a beautiful destiny that patiently waited for them to discover each other.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <h2><%= t('will_you_join') %></h2>
+      <p><%= t('confirm_presence') %></p>
+      <a href="/rsvp" class="btn btn-primary"><%= t('rsvp_now') %> <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

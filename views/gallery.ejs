@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1><%= t('gallery_title') %></h1>
+      <p><%= t('gallery_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="gallery-placeholder">
+        <i class="fas fa-images"></i>
+        <h2>Gallery Coming Soon</h2>
+        <p>We will be adding photos soon. Check back later!</p>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-top:5px;">To add images, edit the image URLs in <code>server.js</code> gallery route</p>
+      </div>
+      <div class="gallery-grid" style="display:none">
+        <% images.forEach(function(image) { %>
+          <div class="gallery-item">
+            <% if (image.url) { %>
+              <img src="<%= image.url %>" alt="<%= image.caption %>" loading="lazy">
+              <div class="gallery-overlay">
+                <span><%= image.caption %></span>
+              </div>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

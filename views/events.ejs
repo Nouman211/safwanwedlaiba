@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1><%= t('wedding_events') %></h1>
+      <p><%= t('events_subtitle') %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="events-timeline">
+        <% events.forEach(function(event, index) { %>
+          <% 
+            var eventImages = [
+              'https://i.postimg.cc/2SsyddpT/Chat-GPT-Image-Jul-11-2026-11-04-23-PM.png',
+              'https://i.postimg.cc/7ZH8Ff3x/Chat-GPT-Image-Jul-11-2026-11-13-47-PM.png',
+              'https://i.postimg.cc/Z52HrQK7/Chat-GPT-Image-Jul-11-2026-11-17-14-PM.png'
+            ];
+          %>
+          <div class="event-card">
+            <div class="event-number"><%= index + 1 %></div>
+            <div class="event-body">
+              <div class="event-image-col">
+                <img src="<%= eventImages[index] %>" alt="<%= lang === 'ur' ? event.title_ur : event.title_en %>" class="event-image">
+                <div class="event-image-overlay"></div>
+              </div>
+              <div class="event-text-col">
+                <div class="event-icon">
+                  <% if (event.icon === 'hand') { %>
+                    <i class="fas fa-hand-holding-heart"></i>
+                  <% } else if (event.icon === 'ring') { %>
+                    <i class="fas fa-ring"></i>
+                  <% } else { %>
+                    <i class="fas fa-utensils"></i>
+                  <% } %>
+                </div>
+                <h2><%= lang === 'ur' ? event.title_ur : event.title_en %></h2>
+                <div class="event-details">
+                  <p><i class="fas fa-calendar-day"></i> <%= event.date %></p>
+                  <p><i class="fas fa-clock"></i> <%= event.time %></p>
+                  <p><i class="fas fa-map-marker-alt"></i> <%= event.venue %></p>
+                </div>
+                <p class="event-description"><%= event.description %></p>
+                <% if (event.venue !== 'Will be decided later' && event.venue !== 'بعد میں طے ہوگا') { %>
+                  <a href="https://maps.google.com/?q=<%= encodeURIComponent(event.venue) %>" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><%= t('view_on_map') %> <i class="fas fa-external-link-alt"></i></a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
