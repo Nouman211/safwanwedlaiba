@@ -1,11 +1,16 @@
 <%- include('partials/header') %>
 
 <main>
+  <div class="bismillah-banner">
+    <div class="container">
+      <p class="bismillah-text"><%= t('bismillah') %></p>
+    </div>
+  </div>
+
   <!-- ===== Home Section ===== -->
   <section id="home" class="hero" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600'); background-size: cover; background-position: center;">
     <div class="hero-overlay" style="background: rgba(26,10,14,0.75);"></div>
     <div class="hero-content">
-      <p class="hero-bismillah" style="display:none;"><%= t('bismillah') %></p>
       <p class="hero-subtitle"><%= t('invite_title') %></p>
       <div class="hero-names">
         <span class="name">Safwan</span>
@@ -25,36 +30,6 @@
         <div class="countdown-item">
           <span class="countdown-number"><%= minutes %></span>
           <span class="countdown-label"><%= t('minutes') %></span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="bismillah-banner">
-    <div class="container">
-      <p class="bismillah-text"><%= t('bismillah') %></p>
-    </div>
-  </div>
-
-  <section class="section details-section">
-    <div class="container">
-      <h2 class="section-title"><%= t('wedding_details') %></h2>
-      <p class="section-subtitle"><%= t('join_us') %></p>
-      <div class="details-grid">
-        <div class="detail-card">
-          <div class="detail-icon"><i class="fas fa-calendar-day"></i></div>
-          <h3><%= t('date') %></h3>
-          <p>March 26, 2027</p>
-        </div>
-        <div class="detail-card">
-          <div class="detail-icon"><i class="fas fa-clock"></i></div>
-          <h3><%= t('time') %></h3>
-          <p><%= t('nikkah_time') %></p>
-        </div>
-        <div class="detail-card">
-          <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
-          <h3><%= t('venue') %></h3>
-          <p><%= t('venue_tbd') %></p>
         </div>
       </div>
     </div>
@@ -90,15 +65,10 @@
   </section>
 
   <!-- ===== Events Section ===== -->
-  <section id="events" class="page-hero">
+  <section id="events" class="section">
     <div class="container">
-      <h1><%= t('wedding_events') %></h1>
-      <p><%= t('events_subtitle') %></p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
+      <h2 class="section-title"><%= t('wedding_events') %></h2>
+      <p class="section-subtitle"><%= t('events_subtitle') %></p>
       <div class="events-timeline">
         <% events.forEach(function(event, index) { %>
           <% 

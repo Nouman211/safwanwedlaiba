@@ -38,6 +38,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -1407,6 +1408,12 @@ img { max-width: 100%; height: auto; display: block; }
   border: none;
   pointer-events: none;
   opacity: 0.01;
+  overflow: hidden;
+}
+
+#youtubePlayer iframe {
+  width: 1px;
+  height: 1px;
 }
 
 /* ===== Music Bar (mobile-first) ===== */
