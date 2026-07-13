@@ -125,6 +125,28 @@ document.addEventListener('DOMContentLoaded', function () {
     audio.volume = 0.5;
     var playing = false;
 
+    function startPlaying() {
+      audio.volume = 0.5;
+      audio.play().then(function () {
+        playing = true;
+        icon.className = 'fas fa-pause';
+        label.textContent = 'Pause';
+        removeInteractionListeners();
+      }).catch(function () {});
+    }
+
+    function onFirstInteraction() {
+      startPlaying();
+    }
+
+    function removeInteractionListeners() {
+      document.removeEventListener('click', onFirstInteraction);
+      document.removeEventListener('touchstart', onFirstInteraction);
+      document.removeEventListener('scroll', onFirstInteraction);
+      document.removeEventListener('mousemove', onFirstInteraction);
+      document.removeEventListener('keydown', onFirstInteraction);
+    }
+
     var playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise.then(function () {
@@ -135,40 +157,24 @@ document.addEventListener('DOMContentLoaded', function () {
         playing = false;
         icon.className = 'fas fa-play';
         label.textContent = 'Play Music';
-
-        function autoPlayOnInteraction() {
-          audio.volume = 0.5;
-          audio.play().then(function () {
-            playing = true;
-            icon.className = 'fas fa-pause';
-            label.textContent = 'Pause';
-          }).catch(function () {});
-          document.removeEventListener('click', autoPlayOnInteraction);
-          document.removeEventListener('touchstart', autoPlayOnInteraction);
-          document.removeEventListener('scroll', autoPlayOnInteraction);
-          document.removeEventListener('mousemove', autoPlayOnInteraction);
-        }
-        document.addEventListener('click', autoPlayOnInteraction);
-        document.addEventListener('touchstart', autoPlayOnInteraction);
-        document.addEventListener('scroll', autoPlayOnInteraction);
-        document.addEventListener('mousemove', autoPlayOnInteraction);
+        document.addEventListener('click', onFirstInteraction);
+        document.addEventListener('touchstart', onFirstInteraction);
+        document.addEventListener('scroll', onFirstInteraction);
+        document.addEventListener('mousemove', onFirstInteraction);
+        document.addEventListener('keydown', onFirstInteraction);
       });
     }
 
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
+      removeInteractionListeners();
       if (playing) {
         audio.pause();
         icon.className = 'fas fa-play';
         label.textContent = 'Play Music';
         playing = false;
       } else {
-        audio.volume = 0.5;
-        audio.play().then(function () {
-          icon.className = 'fas fa-pause';
-          label.textContent = 'Pause';
-          playing = true;
-        }).catch(function () {});
+        startPlaying();
       }
     });
   }
