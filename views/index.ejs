@@ -14,7 +14,7 @@
       <p class="hero-subtitle"><%= t('invite_title') %></p>
       <div class="hero-names">
         <span class="name">Safwan</span>
-        <span class="ampersand">weds</span>
+        <span class="ampersand"><%= t('weds') %></span>
         <span class="name">Laiba</span>
       </div>
       <p class="hero-verse"><%= t('verse') %></p>
@@ -42,22 +42,22 @@
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
-            <h3>How We Met</h3>
-            <p>Long before they understood the meaning of love, their families had already tied their hearts together in a beautiful childhood engagement. They grew up as strangers, each following their own dreams and creating their own memories, completely unaware that destiny had already written their names beside each other.</p>
+            <h3><%= t('how_we_met') %></h3>
+            <p><%= t('how_we_met_desc') %></p>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
-            <h3>The Beautiful Discovery</h3>
-            <p>Years passed, and life brought them together again. It was then that they learned a wonderful secret—that they had been engaged since childhood. What began as a surprising revelation soon felt like a story written by fate itself. Every conversation and every moment together seemed to confirm that some connections are meant to be.</p>
+            <h3><%= t('beautiful_discovery') %></h3>
+            <p><%= t('beautiful_discovery_desc') %></p>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
-            <h3>The Wedding</h3>
-            <p>With hearts full of gratitude and excitement, they embraced the journey that had begun long ago without their knowledge. What was once a promise made by their families became a love they chose wholeheartedly. Today, they celebrate not only their wedding but also a beautiful destiny that patiently waited for them to discover each other.</p>
+            <h3><%= t('the_wedding') %></h3>
+            <p><%= t('the_wedding_desc') %></p>
           </div>
         </div>
       </div>
@@ -99,9 +99,9 @@
                 <div class="event-details">
                   <p><i class="fas fa-calendar-day"></i> <%= event.date %></p>
                   <p><i class="fas fa-clock"></i> <%= event.time %></p>
-                  <p><i class="fas fa-map-marker-alt"></i> <%= event.venue %></p>
+                  <p><i class="fas fa-map-marker-alt"></i> <%= (event.venue === 'Will be decided later') ? t('venue_tbd') : event.venue %></p>
                 </div>
-                <p class="event-description"><%= event.description %></p>
+                <p class="event-description"><%= lang === 'ur' ? event.description_ur : event.description %></p>
                 <% if (event.venue !== 'Will be decided later' && event.venue !== 'بعد میں طے ہوگا') { %>
                   <a href="https://maps.google.com/?q=<%= encodeURIComponent(event.venue) %>" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><%= t('view_on_map') %> <i class="fas fa-external-link-alt"></i></a>
                 <% } %>
@@ -113,61 +113,91 @@
     </div>
   </section>
 
-  <!-- ===== RSVP Section ===== -->
+  <section class="section mehndi-names-section">
+    <div class="container">
+      <h3 class="section-title" style="font-size:1.8rem;"><%= lang === 'ur' ? 'بے تابی سے انتظار' : 'Awaiting Eyes' %></h3>
+      <div class="mehndi-names-pyramid">
+        <div class="mehndi-names-row">
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--gold),var(--gold-dark))">W</div><span>Washma Lodhi</span></div>
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--peach),#d4733a)">U</div><span>Umama Lodhi</span></div>
+        </div>
+        <div class="mehndi-names-row">
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--rose),#c0392b)">R</div><span>Rabia Nouman</span></div>
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--lavender),var(--berry))">M</div><span>Mirha Lodhi</span></div>
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--teal),#1abc9c)">M</div><span>Manha Lodhi</span></div>
+        </div>
+        <div class="mehndi-names-row">
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--sage),#6ab04c)">P</div><span>Paro Majid</span></div>
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--orange),#e17055)">F</div><span>Fatima Lodhi</span></div>
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--coral),#eb4d4b)">R</div><span>Rumaisa Lodhi</span></div>
+        </div>
+        <div class="mehndi-names-row">
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--sky),#0984e3)">S</div><span>Safa Lodhi</span></div>
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--gold),#b8864a)">E</div><span>Eshmal Lodhi</span></div>
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--rose-light),var(--rose))">M</div><span>Maryam Lodhi</span></div>
+        </div>
+        <div class="mehndi-names-row">
+          <div class="mini-guest-card"><div class="mini-avatar" style="background:linear-gradient(135deg,var(--lavender-light),var(--lavender))">F</div><span>Fatima Shahid</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
   <section id="rsvp" class="page-hero">
     <div class="container">
       <h1><%= t('rsvp_title') %></h1>
-      <p><%= t('rsvp_subtitle') %></p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="rsvp-container">
-        <form id="rsvpForm" class="rsvp-form" novalidate>
-          <div class="form-header">
-            <i class="fas fa-envelope-open-text"></i>
-            <h2><%= t('please_rsvp') %></h2>
-            <p><%= t('rsvp_desc') %></p>
-          </div>
-
-          <div class="form-group">
-            <label for="name"><%= t('full_name') %> <span class="required">*</span></label>
-            <input type="text" id="name" name="name" placeholder="<%= t('full_name') %>" required maxlength="100">
-          </div>
-
-          <div class="form-group">
-            <label for="email"><%= t('email_address') %></label>
-            <input type="email" id="email" name="email" placeholder="your@email.com">
-          </div>
-
-          <div class="form-group">
-            <label><%= t('attending') %> <span class="required">*</span></label>
-            <div class="radio-group">
-              <label class="radio-label">
-                <input type="radio" name="attending" value="yes" required>
-                <span class="radio-custom"></span>
-                <span class="radio-text"><i class="fas fa-smile"></i> <%= t('joyfully_accept') %></span>
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="attending" value="no">
-                <span class="radio-custom"></span>
-                <span class="radio-text"><i class="fas fa-frown"></i> <%= t('regretfully_decline') %></span>
-              </label>
+      <div class="family-contacts-columns">
+        <div class="family-contacts-col">
+          <div class="guest-card">
+            <div class="guest-avatar" style="background:linear-gradient(135deg,var(--gold),var(--gold-dark))">M</div>
+            <div class="guest-info">
+              <h3>Mr & Mrs M. Rasheed Lodhi</h3>
+              <span class="guest-relation"><i class="fas fa-phone"></i> 0300-8548210</span>
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="guests"><%= t('additional_guests') %></label>
-            <textarea id="guests" name="guests" rows="2" placeholder="<%= t('guests_placeholder') %>"></textarea>
+          <div class="guest-card">
+            <div class="guest-avatar" style="background:linear-gradient(135deg,var(--rose),#c0392b)">S</div>
+            <div class="guest-info">
+              <h3>Mr & Mrs M. Shahzad Lodhi</h3>
+            </div>
           </div>
-
-          <button type="submit" class="btn btn-primary btn-block"><%= t('submit_rsvp') %> <i class="fas fa-paper-plane"></i></button>
-        </form>
-        <div id="rsvpSuccess" class="success-message" style="display:none;">
-          <i class="fas fa-check-circle"></i>
-          <h2><%= t('rsvp_success') %></h2>
-          <p><%= t('rsvp_future') %></p>
+          <div class="guest-card">
+            <div class="guest-avatar" style="background:linear-gradient(135deg,var(--teal),#1abc9c)">N</div>
+            <div class="guest-info">
+              <h3>Mr & Mrs M. Nouman Rasheed</h3>
+              <span class="guest-relation"><i class="fas fa-phone"></i> 0321-4278926</span>
+            </div>
+          </div>
+        </div>
+        <div class="family-contacts-col">
+          <div class="guest-card">
+            <div class="guest-avatar" style="background:linear-gradient(135deg,var(--peach),#d4733a)">I</div>
+            <div class="guest-info">
+              <h3>Mr & Mrs Inam Ul Haq Lodhi</h3>
+            </div>
+          </div>
+          <div class="guest-card">
+            <div class="guest-avatar" style="background:linear-gradient(135deg,var(--lavender),var(--berry))">E</div>
+            <div class="guest-info">
+              <h3>Mr & Mrs Ehsan Ul Haq Lodhi</h3>
+            </div>
+          </div>
+          <div class="guest-card">
+            <div class="guest-avatar" style="background:linear-gradient(135deg,var(--sage),#6ab04c)">I</div>
+            <div class="guest-info">
+              <h3>Mr & Mrs Ikram Ul Haq Lodhi</h3>
+            </div>
+          </div>
+          <div class="guest-card">
+            <div class="guest-avatar" style="background:linear-gradient(135deg,var(--orange),#e17055)">U</div>
+            <div class="guest-info">
+              <h3>Mr & Mrs Usman Lodhi</h3>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -195,7 +225,7 @@
             </div>
             <div class="guest-info">
               <h3><%= guest.name %></h3>
-              <span class="guest-relation"><%= guest.relation %></span>
+              <span class="guest-relation"><%= lang === 'ur' ? t(guest.relation.toLowerCase()) : guest.relation %></span>
             </div>
             <span class="guest-status status-<%= guest.status.toLowerCase() %>">
               <% if (guest.status === 'Confirmed') { %>
@@ -205,7 +235,7 @@
               <% } else { %>
                 <i class="fas fa-hourglass-half"></i>
               <% } %>
-              <%= guest.status %>
+              <%= lang === 'ur' ? (guest.status === 'Invited' ? t('invited_status') : guest.status) : guest.status %>
             </span>
           </div>
         <% }); %>
@@ -225,8 +255,8 @@
     <div class="container">
       <div class="gallery-placeholder">
         <i class="fas fa-images"></i>
-        <h2>Gallery Coming Soon</h2>
-        <p>We will be adding photos soon. Check back later!</p>
+        <h2><%= t('gallery_coming_soon') %></h2>
+        <p><%= t('gallery_coming_soon_desc') %></p>
       </div>
       <div class="gallery-grid" style="display:none">
         <% images.forEach(function(image) { %>
@@ -243,47 +273,37 @@
     </div>
   </section>
 
-  <section class="section cta-section">
+  <section class="section countdown-section">
     <div class="container">
-      <h2><%= t('will_you_join') %></h2>
-      <p><%= t('confirm_presence') %></p>
-      <a href="/#rsvp" class="btn btn-primary"><%= t('rsvp_now') %> <i class="fas fa-arrow-right"></i></a>
+      <div class="countdown-decorative"><i class="fas fa-heart"></i></div>
+      <h2 class="countdown-heading"><%= t('countdown_title') || 'Forever Begins In' %></h2>
+      <div class="countdown-timer" id="countdownTimer">
+        <div class="countdown-unit">
+          <span class="countdown-number" id="countDays">00</span>
+          <span class="countdown-label"><%= t('days') || 'Days' %></span>
+        </div>
+        <div class="countdown-separator"><i class="fas fa-heart"></i></div>
+        <div class="countdown-unit">
+          <span class="countdown-number" id="countHours">00</span>
+          <span class="countdown-label"><%= t('hours') || 'Hours' %></span>
+        </div>
+        <div class="countdown-separator"><i class="fas fa-heart"></i></div>
+        <div class="countdown-unit">
+          <span class="countdown-number" id="countMinutes">00</span>
+          <span class="countdown-label"><%= t('minutes') || 'Minutes' %></span>
+        </div>
+        <div class="countdown-separator"><i class="fas fa-heart"></i></div>
+        <div class="countdown-unit">
+          <span class="countdown-number" id="countSeconds">00</span>
+          <span class="countdown-label"><%= t('seconds') || 'Seconds' %></span>
+        </div>
+      </div>
+      <p class="countdown-date"><i class="fas fa-calendar-heart"></i> <%= t('countdown_date') %></p>
+      <div class="countdown-quote">
+        <p><%= t('countdown_quote') %></p>
+      </div>
     </div>
   </section>
 </main>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var form = document.getElementById('rsvpForm');
-  if (!form) return;
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    var name = document.getElementById('name').value.trim();
-    var attending = document.querySelector('input[name="attending"]:checked');
-    var guests = document.getElementById('guests').value.trim();
-    var email = document.getElementById('email').value.trim();
-
-    if (!name) { alert('Please enter your name.'); return; }
-    if (!attending) { alert('Please select your attendance status.'); return; }
-
-    var status = attending.value === 'yes' ? 'Joyfully Accepting' : 'Regretfully Declining';
-    var message = `*RSVP - Safwan & Laiba's Wedding*%0A%0A`;
-    message += `*Name:* ${name}%0A`;
-    if (email) message += `*Email:* ${email}%0A`;
-    message += `*Status:* ${status}%0A`;
-    if (guests) message += `*Additional Guests:* ${guests}%0A`;
-    message += `%0A_Submitted via Wedding Website_`;
-
-    var whatsappUrl = `https://wa.me/<%= whatsappNumber %>?text=${message}`;
-
-    window.location.href = whatsappUrl;
-
-    form.style.display = 'none';
-    document.getElementById('rsvpSuccess').style.display = 'block';
-  });
-});
-</script>
 
 <%- include('partials/footer') %>

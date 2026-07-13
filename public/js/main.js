@@ -15,8 +15,40 @@ document.addEventListener('DOMContentLoaded', function () {
         menu.classList.remove('active');
         toggle.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('menu-open');
-      });
-    });
+  });
+
+  /* ===== Countdown Timer ===== */
+  var countdownTimer = document.getElementById('countdownTimer');
+  if (countdownTimer) {
+    var weddingDate = new Date('2027-03-26T14:00:00').getTime();
+
+    function updateCountdown() {
+      var now = new Date().getTime();
+      var distance = weddingDate - now;
+
+      if (distance <= 0) {
+        document.getElementById('countDays').textContent = '00';
+        document.getElementById('countHours').textContent = '00';
+        document.getElementById('countMinutes').textContent = '00';
+        document.getElementById('countSeconds').textContent = '00';
+        return;
+      }
+
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById('countDays').textContent = days < 10 ? '0' + days : days;
+      document.getElementById('countHours').textContent = hours < 10 ? '0' + hours : hours;
+      document.getElementById('countMinutes').textContent = minutes < 10 ? '0' + minutes : minutes;
+      document.getElementById('countSeconds').textContent = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+});
   }
 
   var navbar = document.querySelector('.navbar');
@@ -87,89 +119,56 @@ document.addEventListener('DOMContentLoaded', function () {
   var btn = document.getElementById('musicToggle');
   var icon = document.getElementById('musicIcon');
   var label = document.getElementById('musicLabel');
-  var playerDiv = document.getElementById('youtubePlayer');
+  var audio = document.getElementById('bgAudio');
 
-  if (btn && playerDiv) {
+  if (btn && audio) {
+    audio.volume = 0.5;
     var playing = false;
-    var player = null;
-    var playerReady = false;
-    var savedTime = parseFloat(sessionStorage.getItem('audioTime')) || 0;
 
-    var tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    var firstScript = document.getElementsByTagName('script')[0];
-    firstScript.parentNode.insertBefore(tag, firstScript);
+    var playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(function () {
+        playing = true;
+        icon.className = 'fas fa-pause';
+        label.textContent = 'Pause';
+      }).catch(function () {
+        playing = false;
+        icon.className = 'fas fa-play';
+        label.textContent = 'Play Music';
 
-    window.onYouTubeIframeAPIReady = function () {
-      player = new YT.Player('youtubePlayer', {
-        height: '1',
-        width: '1',
-        videoId: '8mYeTuzBQr4',
-        playerVars: {
-          autoplay: 1,
-          loop: 1,
-          playlist: '8mYeTuzBQr4',
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          modestbranding: 1,
-          playsinline: 1,
-          start: 8,
-        },
-        events: {
-          onReady: function () {
-            playerReady = true;
-            player.setVolume(50);
-            if (savedTime > 8) {
-              player.seekTo(savedTime, true);
-            }
-            player.playVideo();
+        function autoPlayOnInteraction() {
+          audio.volume = 0.5;
+          audio.play().then(function () {
             playing = true;
             icon.className = 'fas fa-pause';
             label.textContent = 'Pause';
-          },
-        },
+          }).catch(function () {});
+          document.removeEventListener('click', autoPlayOnInteraction);
+          document.removeEventListener('touchstart', autoPlayOnInteraction);
+          document.removeEventListener('scroll', autoPlayOnInteraction);
+          document.removeEventListener('mousemove', autoPlayOnInteraction);
+        }
+        document.addEventListener('click', autoPlayOnInteraction);
+        document.addEventListener('touchstart', autoPlayOnInteraction);
+        document.addEventListener('scroll', autoPlayOnInteraction);
+        document.addEventListener('mousemove', autoPlayOnInteraction);
       });
-    };
-
-    function onUserInteraction() {
-      if (player && playerReady && player.isMuted && player.isMuted()) {
-        player.unMute();
-      }
-      document.removeEventListener('click', onUserInteraction);
-      document.removeEventListener('touchstart', onUserInteraction);
     }
-    document.addEventListener('click', onUserInteraction, { once: true });
-    document.addEventListener('touchstart', onUserInteraction, { once: true });
-
-    setInterval(function () {
-      if (player && playerReady) {
-        sessionStorage.setItem('audioTime', player.getCurrentTime());
-        sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
-      }
-    }, 500);
-
-    window.addEventListener('beforeunload', function () {
-      if (player && playerReady) {
-        sessionStorage.setItem('audioTime', player.getCurrentTime());
-        sessionStorage.setItem('audioPlaying', playing ? 'true' : 'false');
-      }
-    });
 
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
-      if (player && playerReady) {
-        if (playing) {
-          player.pauseVideo();
-          icon.className = 'fas fa-play';
-          label.textContent = 'Play Music';
-          playing = false;
-        } else {
-          player.playVideo();
+      if (playing) {
+        audio.pause();
+        icon.className = 'fas fa-play';
+        label.textContent = 'Play Music';
+        playing = false;
+      } else {
+        audio.volume = 0.5;
+        audio.play().then(function () {
           icon.className = 'fas fa-pause';
           label.textContent = 'Pause';
           playing = true;
-        }
+        }).catch(function () {});
       }
     });
   }
